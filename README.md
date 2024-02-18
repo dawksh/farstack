@@ -21,6 +21,8 @@ const userDetails: UserDetails = client.getUserDetailsByFID("2483");
 
 # API Methods
 
+This is still very new, please create a issue if you want a particular API Method.
+
 ## getUserDetailsByFID
 
 ### Description
@@ -139,3 +141,25 @@ Retrieves custom user data based on the GraphQL Query and Variables provided
 ### Return Type
 
 Promise<any>
+
+## isFollowing
+
+### Description
+
+Checks if a user with a given FID is following another user with a target FID on Farcaster.
+
+### Parameters
+
+| Name      | Type   | Description                                            |
+| --------- | ------ | ------------------------------------------------------ |
+| userFID   | number | Farcaster ID of the user who is potentially following. |
+| targetFid | number | Farcaster ID of the user who is potentially followed.  |
+
+### Return Type
+
+Promise<boolean>
+
+### Return Value
+
+-   `true`: The user with `userFID` is following the user with `targetFid`.
+-   `false`: The user with `userFID` is not following the user with `targetFid`.

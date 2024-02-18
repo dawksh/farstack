@@ -1,6 +1,3 @@
-
-
-
 export type UserDetails = {
     userAssociatedAddresses: string[],
     id: string,
