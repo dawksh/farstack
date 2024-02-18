@@ -66,9 +66,9 @@ export class Client {
         address: `0x${string}`
     ): Promise<UserDetails> {
         const query = `
-            query MyQuery($userAddress: [Address!], $_eq: SocialDappName, $blockchain: Blockchain!) {
+            query MyQuery($userAddress: [Address!]) {
                 Socials(
-                    input: {filter: {dappName: {_eq: $_eq}, userAssociatedAddresses: {_in: $userAddress}}, blockchain: $blockchain}
+                    input: {filter: {dappName: farcaster, userAssociatedAddresses: {_in: $userAddress}}, blockchain: ethereum}
                 ) {
                     Social {
                     userAssociatedAddresses
