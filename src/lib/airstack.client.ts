@@ -103,9 +103,9 @@ export class Client {
 
     async getUserDetailsByUsername(username: string): Promise<UserDetails> {
         const query = `
-            query MyQuery($_eq: farcaster, $_eq1: "fc_fname:${username}", $blockchain: ethereum) {
+            query MyQuery( $uname: "fc_fname:${username}") {
                 Socials(
-                    input: {filter: {dappName: {_eq: $_eq}, identity: {_eq: $_eq1}}, blockchain: $blockchain}
+                    input: {filter: {dappName: {_eq: farcaster}, identity: {_eq: $uname}}, blockchain: ethereum}
                 ) {
                     Social {
                     userAssociatedAddresses
