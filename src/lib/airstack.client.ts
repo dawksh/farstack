@@ -10,20 +10,21 @@ export class Client {
     constructor(apiKey: string) {
         this.AIRSTACK_API_KEY = apiKey;
         this.client = axios.create({
-            baseURL: this.AIRSTACK_API_URL,
             headers: {
-                ["Authorization"]: this.AIRSTACK_API_KEY,
-            },
-        });
+                Authorization: this.AIRSTACK_API_KEY
+            }
+        })
     }
 
     private async getAirstackData(query: string, variables?: Object) {
-        const { data } = await this.client.post(this.AIRSTACK_API_KEY, {
+        const { data } = await this.client.post(this.AIRSTACK_API_URL, {
             query,
             variables
         })
         return data
     }
+
+    // User Methods
 
     async getUserDetailsByFID(fid: number): Promise<UserDetails> {
         const query = `
@@ -120,6 +121,11 @@ export class Client {
             `
         const data: UserProfileRequest = await this.getAirstackData(query)
         return data.data.Socials.Social[0]
+    }
+
+    async getCustomFarcasterData(query: string, variables?: Array<any>): Promise<any> {
+        const data = await this.getAirstackData(query, variables);
+        return data;
     }
 
 }

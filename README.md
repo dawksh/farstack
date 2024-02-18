@@ -122,3 +122,20 @@ Promise<UserDetails>
 | userRecoveryAddress | string | Recovery address of the user |
 | profileLastUpdatedAtBlockNumber | number | Block number when profile last updated|
 | location | string | User's location |
+
+## getCustomFarcasterData
+
+### Description
+
+Retrieves custom user data based on the GraphQL Query and Variables provided
+
+### Parameters
+
+| Name      | Type       | Description                                    |
+| --------- | ---------- | ---------------------------------------------- |
+| query     | string     | GraphQL Formatted Query                        |
+| variables | array<any> | Array of variables for the given GraphQL Query |
+
+### Return Type
+
+Promise<any>
