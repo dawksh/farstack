@@ -1,6 +1,6 @@
 {
   "name": "farstack",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A Simple library to query Farcaster Data using Airstack APIs!",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
