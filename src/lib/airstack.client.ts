@@ -1,5 +1,5 @@
 import axios, { Axios, AxiosInstance } from "axios";
-import { UserProfile } from "../types/account";
+import { UserDetails, UserProfileRequest } from "../types/account";
 
 export class Client {
     public AIRSTACK_API_URL = "https://api.airstack.xyz/graphql";
@@ -17,7 +17,7 @@ export class Client {
         });
     }
 
-    async getAirstackData(query: string, variables: Object) {
+    private async getAirstackData(query: string, variables: Object) {
         const { data } = await this.client.post(this.AIRSTACK_API_KEY, {
             query,
             variables
@@ -25,7 +25,7 @@ export class Client {
         return data
     }
 
-    async getUserDetails(fid: number): Promise<any> {
+    async getUserDetailsByFID(fid: number): Promise<UserDetails> {
         const query = `
             query MyQuery($fid: String, ) {
                 Socials(
@@ -53,7 +53,7 @@ export class Client {
         const variables = {
             fid: fid.toString()
         }
-        const data: UserProfile = await this.getAirstackData(query, variables)
+        const data: UserProfileRequest = await this.getAirstackData(query, variables)
         return data.data.Socials.Social[0];
     }
 
