@@ -17,7 +17,7 @@ export class Client {
         });
     }
 
-    private async getAirstackData(query: string, variables: Object) {
+    private async getAirstackData(query: string, variables?: Object) {
         const { data } = await this.client.post(this.AIRSTACK_API_KEY, {
             query,
             variables
@@ -27,7 +27,7 @@ export class Client {
 
     async getUserDetailsByFID(fid: number): Promise<UserDetails> {
         const query = `
-            query MyQuery($fid: String, ) {
+            query MyQuery($fid: String ) {
                 Socials(
                     input: {filter: {dappName: {_eq: farcaster}, userId: {_eq: $fid}}, blockchain: ethereum}
                 ) {
@@ -55,6 +55,71 @@ export class Client {
         }
         const data: UserProfileRequest = await this.getAirstackData(query, variables)
         return data.data.Socials.Social[0];
+    }
+
+    async getUserDetailsByAddress(address: `0x${string}`): Promise<UserDetails> {
+        const query =
+            `
+            query MyQuery($userAddress: [Address!], $_eq: SocialDappName, $blockchain: Blockchain!) {
+                Socials(
+                    input: {filter: {dappName: {_eq: $_eq}, userAssociatedAddresses: {_in: $userAddress}}, blockchain: $blockchain}
+                ) {
+                    Social {
+                    userAssociatedAddresses
+                    id
+                    fnames
+                    followerCount
+                    followingCount
+                    profileImage
+                    profileDisplayName
+                    profileHandle
+                    profileBio
+                    profileName
+                    userAddress
+                    userRecoveryAddress
+                    profileLastUpdatedAtBlockNumber
+                    location
+                    }
+                }
+            }
+            `;
+        const variables = {
+            userAddress: [address.toLowerCase()]
+        }
+
+        const data: UserProfileRequest = await this.getAirstackData(query, variables);
+
+        return data.data.Socials.Social[0]
+    }
+
+    async getUserDetailsByUsername(username: string): Promise<UserDetails> {
+        const query =
+            `
+            query MyQuery($_eq: farcaster, $_eq1: "fc_fname:${username}", $blockchain: ethereum) {
+                Socials(
+                    input: {filter: {dappName: {_eq: $_eq}, identity: {_eq: $_eq1}}, blockchain: $blockchain}
+                ) {
+                    Social {
+                    userAssociatedAddresses
+                    id
+                    fnames
+                    followerCount
+                    followingCount
+                    profileImage
+                    profileDisplayName
+                    profileHandle
+                    profileBio
+                    profileName
+                    userAddress
+                    userRecoveryAddress
+                    profileLastUpdatedAtBlockNumber
+                    location
+                    }
+                }
+            }
+            `
+        const data: UserProfileRequest = await this.getAirstackData(query)
+        return data.data.Socials.Social[0]
     }
 
 }
