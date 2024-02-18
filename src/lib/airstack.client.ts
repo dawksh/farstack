@@ -1,5 +1,5 @@
-import axios, { Axios, AxiosInstance } from "axios";
-import { UserDetails, UserProfileRequest } from "../types/account";
+import axios, { AxiosInstance } from "axios";
+import { UserDetails, UserProfileRequest } from "../types";
 
 export class Client {
     public AIRSTACK_API_URL = "https://api.airstack.xyz/graphql";
