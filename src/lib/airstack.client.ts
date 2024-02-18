@@ -27,7 +27,7 @@ export class Client {
 
     // User Methods
 
-    async getUserDetailsByFID(fid: number): Promise<UserDetails> {
+    async getUserDetailsByFID(fid: number): Promise<UserDetails | []> {
         const query = `
             query MyQuery($fid: String ) {
                 Socials(
@@ -59,16 +59,16 @@ export class Client {
             query,
             variables
         );
-        return data.data.Socials.Social[0];
+        return data?.data?.Socials?.Social.length > 0 && data?.data?.Socials?.Social[0] || [];
     }
 
     async getUserDetailsByAddress(
         address: `0x${string}`
-    ): Promise<UserDetails> {
+    ): Promise<UserDetails | []> {
         const query = `
             query MyQuery($userAddress: [Address!]) {
                 Socials(
-                    input: {filter: {dappName: farcaster, userAssociatedAddresses: {_in: $userAddress}}, blockchain: ethereum}
+                    input: {filter: {dappName: {_eq: farcaster}, userAssociatedAddresses: {_in: $userAddress}}, blockchain: ethereum}
                 ) {
                     Social {
                     userAssociatedAddresses
@@ -98,14 +98,14 @@ export class Client {
             variables
         );
 
-        return data.data.Socials.Social[0];
+        return data?.data?.Socials?.Social.length > 0 && data?.data?.Socials?.Social[0] || [];
     }
 
-    async getUserDetailsByUsername(username: string): Promise<UserDetails> {
+    async getUserDetailsByUsername(username: string): Promise<UserDetails | []> {
         const query = `
-            query MyQuery( $uname: "fc_fname:${username}") {
+            query MyQuery($uname: String) {
                 Socials(
-                    input: {filter: {dappName: {_eq: farcaster}, identity: {_eq: $uname}}, blockchain: ethereum}
+                    input: {blockchain: ethereum, filter: {dappName: {_eq: farcaster}, profileName: {_eq: $uname}}}
                 ) {
                     Social {
                     userAssociatedAddresses
@@ -126,8 +126,9 @@ export class Client {
                 }
             }
             `;
-        const data: UserProfileRequest = await this.getAirstackData(query);
-        return data.data.Socials.Social[0];
+        const variables = { uname: username }
+        const data: UserProfileRequest = await this.getAirstackData(query, variables);
+        return data?.data?.Socials?.Social.length > 0 && data?.data?.Socials?.Social[0] || [];
     }
 
     async getCustomFarcasterData(
