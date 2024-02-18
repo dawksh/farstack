@@ -1,7 +1,9 @@
 {
   "name": "farstack",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "A Simple library to query Farcaster Data using Airstack APIs!",
+  "homepage": "https://github.com/dawksh/farstack",
+  "bugs": "https://github.com/dawksh/farstack/issues",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
