@@ -1,6 +1,6 @@
 {
   "name": "farstack",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A Simple library to query Farcaster Data using Airstack APIs!",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -8,8 +8,8 @@
     "build": "rm -rf dist && tsc"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Daksh Kulshrestha",
+  "license": "MIT",
   "dependencies": {
     "axios": "^1.6.7"
   }
