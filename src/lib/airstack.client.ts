@@ -8,20 +8,21 @@ export class Client {
     client: AxiosInstance;
 
     constructor(apiKey: string) {
+        if (!apiKey) throw Error("No Airstack API Key!");
         this.AIRSTACK_API_KEY = apiKey;
         this.client = axios.create({
             headers: {
-                Authorization: this.AIRSTACK_API_KEY
-            }
-        })
+                Authorization: this.AIRSTACK_API_KEY,
+            },
+        });
     }
 
     private async getAirstackData(query: string, variables?: Object) {
         const { data } = await this.client.post(this.AIRSTACK_API_URL, {
             query,
-            variables
-        })
-        return data
+            variables,
+        });
+        return data;
     }
 
     // User Methods
@@ -52,15 +53,19 @@ export class Client {
             }
         `;
         const variables = {
-            fid: fid.toString()
-        }
-        const data: UserProfileRequest = await this.getAirstackData(query, variables)
+            fid: fid.toString(),
+        };
+        const data: UserProfileRequest = await this.getAirstackData(
+            query,
+            variables
+        );
         return data.data.Socials.Social[0];
     }
 
-    async getUserDetailsByAddress(address: `0x${string}`): Promise<UserDetails> {
-        const query =
-            `
+    async getUserDetailsByAddress(
+        address: `0x${string}`
+    ): Promise<UserDetails> {
+        const query = `
             query MyQuery($userAddress: [Address!], $_eq: SocialDappName, $blockchain: Blockchain!) {
                 Socials(
                     input: {filter: {dappName: {_eq: $_eq}, userAssociatedAddresses: {_in: $userAddress}}, blockchain: $blockchain}
@@ -85,17 +90,19 @@ export class Client {
             }
             `;
         const variables = {
-            userAddress: [address.toLowerCase()]
-        }
+            userAddress: [address.toLowerCase()],
+        };
 
-        const data: UserProfileRequest = await this.getAirstackData(query, variables);
+        const data: UserProfileRequest = await this.getAirstackData(
+            query,
+            variables
+        );
 
-        return data.data.Socials.Social[0]
+        return data.data.Socials.Social[0];
     }
 
     async getUserDetailsByUsername(username: string): Promise<UserDetails> {
-        const query =
-            `
+        const query = `
             query MyQuery($_eq: farcaster, $_eq1: "fc_fname:${username}", $blockchain: ethereum) {
                 Socials(
                     input: {filter: {dappName: {_eq: $_eq}, identity: {_eq: $_eq1}}, blockchain: $blockchain}
@@ -118,14 +125,16 @@ export class Client {
                     }
                 }
             }
-            `
-        const data: UserProfileRequest = await this.getAirstackData(query)
-        return data.data.Socials.Social[0]
+            `;
+        const data: UserProfileRequest = await this.getAirstackData(query);
+        return data.data.Socials.Social[0];
     }
 
-    async getCustomFarcasterData(query: string, variables?: Array<any>): Promise<any> {
+    async getCustomFarcasterData(
+        query: string,
+        variables?: Array<any>
+    ): Promise<any> {
         const data = await this.getAirstackData(query, variables);
         return data;
     }
-
 }
