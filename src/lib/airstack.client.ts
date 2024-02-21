@@ -2,7 +2,7 @@ import axios, { AxiosInstance } from "axios";
 import { UserDetails, UserProfileRequest } from "../types";
 import { getCustomFarcasterData, getUserDetailsByAddress, getUserDetailsByFID, getUserDetailsByUsername, isFollowing } from "../controllers";
 
-export class Client {
+export class AirstackClient {
     public AIRSTACK_API_URL = "https://api.airstack.xyz/graphql";
     protected AIRSTACK_API_KEY;
 
