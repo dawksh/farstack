@@ -163,3 +163,34 @@ Promise<boolean>
 
 -   `true`: The user with `userFID` is following the user with `targetFid`.
 -   `false`: The user with `userFID` is not following the user with `targetFid`.
+
+## getUserAssociatedAddresses
+
+### Description
+
+Retrieves the associated Ethereum and Solana addresses for a user based on their Farcaster ID.
+
+### Parameters
+
+| Name    | Type   | Description                                        |
+| ------- | ------ | -------------------------------------------------- |
+| fid     | string | FarCaster ID of the user.                          |
+| hub     | string | (Optional) Hub URL for the API endpoint.           |
+| options | Object | (Optional) Additional options for the API request. |
+
+### Return Type
+
+Promise<UserAssociatedAddresses>
+
+**UserAssociatedAddresses Type:**
+
+```typescript
+type UserAssociatedAddresses = {
+	solanaAddresses: string[];
+	ethereumAddresses: string[];
+};
+```
+
+### Return Value
+
+An object containing arrays of associated Ethereum and Solana addresses for the specified user.
