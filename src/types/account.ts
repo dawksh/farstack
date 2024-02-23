@@ -23,3 +23,8 @@ export type UserProfileRequest = {
         }
     }
 };
+
+export type UserAssociatedAddresses = {
+    ethereumAddresses: Array<String>,
+    solanaAddresses: Array<String>
+}

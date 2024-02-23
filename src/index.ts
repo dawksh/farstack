@@ -1,4 +1,3 @@
-FarstackClient
 import { FarstackClient } from "./lib/farstack.client";
 import "./types";
 
